@@ -17,15 +17,12 @@ public class Uf {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "uf_generator")
     @SequenceGenerator(name = "uf_generator", initialValue = 1, allocationSize = 1, sequenceName = "SEQUENCE_UF")
     @Column(name = "CODIGO_UF")
-    @JsonProperty ("codigoUf")
     private Integer id;
 
     @Column(name = "SIGLA")
-    @JsonProperty ("sigla")
     private String initials;
 
     @Column(name = "NOME")
-    @JsonProperty ("nome")
     private String name;
 
     @Column(name = "STATUS")

@@ -17,16 +17,13 @@ public class District {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "district_generator")
     @SequenceGenerator(name = "district_generator", initialValue = 1, allocationSize = 1, sequenceName = "SEQUENCE_BAIRRO")
     @Column(name = "CODIGO_BAIRRO")
-    @JsonProperty("codigoBairro")
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "CODIGO_MUNICIPIO")
-    @JsonProperty("codigoMunicipio")
     private City idCity;
 
     @Column(name = "NOME")
-    @JsonProperty ("nome")
     private String name;
 
     @Column(name = "STATUS")

@@ -17,26 +17,21 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_generator")
     @SequenceGenerator(name = "person_generator", initialValue = 1, allocationSize = 1, sequenceName = "SEQUENCE_PESSOA")
     @Column(name = "CODIGO_PESSOA")
-    @JsonProperty("codigoPessoa")
     private Integer id;
 
     @Column(name = "NOME")
-    @JsonProperty ("nome")
     private String name;
 
     @Column(name = "SOBRENOME")
-    @JsonProperty("sobrenome")
     private String lastName;
 
     @Column(name = "IDADE")
-    @JsonProperty("idade")
     private Integer age;
 
     @Column(name = "LOGIN")
     private String login;
 
     @Column(name = "SENHA")
-    @JsonProperty("senha")
     private String password;
 
     @Column(name = "STATUS")

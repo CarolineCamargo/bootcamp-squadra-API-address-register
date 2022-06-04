@@ -17,16 +17,13 @@ public class City {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_generator")
     @SequenceGenerator(name = "city_generator", initialValue = 1, allocationSize = 1, sequenceName = "SEQUENCE_MUNICIPIO")
     @Column(name = "CODIGO_MUNICIPIO")
-    @JsonProperty("codigoMunicipio")
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "CODIGO_UF")
-    @JsonProperty("codigoUf")
-    private Uf idUf;
+    private Integer idUf;
 
     @Column(name = "NOME")
-    @JsonProperty ("nome")
     private String name;
 
     @Column(name = "STATUS")

@@ -3,5 +3,5 @@ package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterse
 import org.springframework.stereotype.Service;
 
 @Service
-public class CityService {
+public interface CityService {
 }
