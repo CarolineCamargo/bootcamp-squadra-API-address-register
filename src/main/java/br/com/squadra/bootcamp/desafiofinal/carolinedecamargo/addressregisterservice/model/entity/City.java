@@ -1,7 +1,5 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity;
 
-import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.enumeration.Status;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import javax.persistence.*;
 
@@ -21,12 +19,12 @@ public class City {
 
     @ManyToOne
     @JoinColumn(name = "CODIGO_UF")
-    private Integer idUf;
+    private Uf uf;
 
     @Column(name = "NOME")
     private String name;
 
     @Column(name = "STATUS")
-    private Status status;
+    private int status;
 
 }

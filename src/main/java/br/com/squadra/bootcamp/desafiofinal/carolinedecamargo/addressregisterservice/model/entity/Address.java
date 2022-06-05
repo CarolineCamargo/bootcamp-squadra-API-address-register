@@ -17,13 +17,13 @@ public class Address {
     @Column(name = "CODIGO_ENDERECO")
     private Integer id;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "CODIGO_PESSOA")
-    private Integer idPerson;
+    private Person person;
 
     @ManyToOne
     @JoinColumn(name = "CODIGO_BAIRRO")
-    private District idDistrict;
+    private District district;
 
     @Column(name = "NOME_RUA")
     private String street;

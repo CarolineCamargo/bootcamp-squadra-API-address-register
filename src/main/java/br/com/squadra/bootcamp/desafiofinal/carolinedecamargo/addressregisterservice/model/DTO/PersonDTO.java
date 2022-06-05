@@ -1,6 +1,5 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO;
 
-import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.enumeration.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -32,5 +31,5 @@ public class PersonDTO {
     @JsonProperty("enderecos")
     private List<AddressDTO> addressDTOs;
 
-    private Status status;
+    private int status;
 }

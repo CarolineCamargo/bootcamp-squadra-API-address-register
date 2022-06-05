@@ -1,9 +1,8 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity;
 
-import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.enumeration.Status;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -35,5 +34,8 @@ public class Person {
     private String password;
 
     @Column(name = "STATUS")
-    private Status status;
+    private int status;
+
+    @OneToMany (fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
+    private List<Address> address;
 }

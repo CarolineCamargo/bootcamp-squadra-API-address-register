@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UfRepository extends JpaRepository<Uf, Integer> {
+
+    boolean existsByInitialsIgnoreCase(String uf);
+
+    boolean existsByNameIgnoreCase(String name);
 }
