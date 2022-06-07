@@ -57,7 +57,7 @@ public class CityServiceImpl implements CityService {
 
     private void validateCity(City city) {
 
-        if (repository.existsByNameAndUf(city.getName())){
+        if (repository.existsByNameAndUf(city.getName(), city.getUf())){
             throw new BusinessException("Já existe uma cidade com o nome " + city.getName()
                     + " cadastrada no estado " + city.getUf().getName()
                     + ", não é possível ter duas cidades com mesmo nome no mesmo estado.", HttpStatus.BAD_REQUEST);

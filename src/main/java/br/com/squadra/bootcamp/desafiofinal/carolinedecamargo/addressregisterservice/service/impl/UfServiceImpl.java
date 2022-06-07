@@ -75,7 +75,7 @@ public class UfServiceImpl implements UfService {
             throw new BusinessException("Já existe um outro estado com a sigla " + uf.getInitials()
                     + ", você não pode atualizar o registro com a mesma sigla", HttpStatus.BAD_REQUEST);
         }
-        if (repository.existsByNameIgnoreCaseAndIdNot(uf.getName())){
+        if (repository.existsByNameIgnoreCaseAndIdNot(uf.getName(), uf.getId())){
             throw new BusinessException("Já existe um outro estado com o nome " + uf.getName()
                     + ", você não pode atualizar o registro com o mesmo nome", HttpStatus.BAD_REQUEST);
         }
