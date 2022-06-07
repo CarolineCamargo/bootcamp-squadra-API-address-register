@@ -45,9 +45,9 @@ public class UfController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping (params = "codigo_UF")
+    @GetMapping (params = "codigoUF")
     @ResponseStatus(HttpStatus.OK)
-    public UfDTO getById(@RequestParam(value = "codigo_UF") Integer id){
+    public UfDTO getById(@RequestParam("codigoUF") Integer id){
         return service.getById(id)
                 .map(uf -> modelMapper.map(uf, UfDTO.class))
                 .orElseThrow( () -> new BusinessException("Não existe registro com o código UF " + id,
@@ -56,7 +56,7 @@ public class UfController {
 
     @GetMapping(params = "sigla")
     @ResponseStatus(HttpStatus.OK)
-    public UfDTO getByInitials(@RequestParam(value = "sigla") String initials){
+    public UfDTO getByInitials(@RequestParam("sigla") String initials){
         return service.getByInitials(initials)
                 .map(uf -> modelMapper.map(uf, UfDTO.class))
                 .orElseThrow( () -> new BusinessException("Não existe registro com a sigla " + initials,
@@ -65,7 +65,7 @@ public class UfController {
 
     @GetMapping(params = "nome")
     @ResponseStatus(HttpStatus.OK)
-    public UfDTO getByName(@RequestParam(value = "nome") String name){
+    public UfDTO getByName(@RequestParam("nome") String name){
         return service.getByName(name)
                 .map(uf -> modelMapper.map(uf, UfDTO.class))
                 .orElseThrow( () -> new BusinessException("Não existe registro com o nome " + name,
@@ -84,7 +84,6 @@ public class UfController {
     @ResponseStatus(HttpStatus.OK)
     public List<UfDTO> update(@RequestBody UfDTO ufDTO){
         Uf entity = service.getById(ufDTO.getId())
-                .map(uf -> modelMapper.map(uf, Uf.class))
                 .orElseThrow( () -> new BusinessException("Não existe registro com o código UF " + ufDTO.getId(),
                         HttpStatus.NOT_FOUND));
 

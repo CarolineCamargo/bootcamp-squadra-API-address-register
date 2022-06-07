@@ -10,9 +10,13 @@ import java.util.Optional;
 @Repository
 public interface UfRepository extends JpaRepository<Uf, Integer> {
 
-    boolean existsByInitialsIgnoreCase(String uf);
+    boolean existsByInitialsIgnoreCase(String initials);
 
     boolean existsByNameIgnoreCase(String name);
+
+    boolean existsByInitialsIgnoreCaseAndIdNot(String initials, Integer id);
+
+    boolean existsByNameIgnoreCaseAndIdNot(String name);
 
     Optional<Uf> findByInitials(String initials);
 

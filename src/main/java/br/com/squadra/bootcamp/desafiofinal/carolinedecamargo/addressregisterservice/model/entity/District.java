@@ -17,7 +17,7 @@ public class District {
     @Column(name = "CODIGO_BAIRRO")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CODIGO_MUNICIPIO")
     private City city;
 

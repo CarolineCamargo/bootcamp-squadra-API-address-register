@@ -20,5 +20,5 @@ public interface UfService {
 
     List<Uf> getByStatus(int status);
 
-    Uf update(Uf uf);
+    void update(Uf uf);
 }

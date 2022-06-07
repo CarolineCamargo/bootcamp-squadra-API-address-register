@@ -17,7 +17,7 @@ public class City {
     @Column(name = "CODIGO_MUNICIPIO")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CODIGO_UF")
     private Uf uf;
 

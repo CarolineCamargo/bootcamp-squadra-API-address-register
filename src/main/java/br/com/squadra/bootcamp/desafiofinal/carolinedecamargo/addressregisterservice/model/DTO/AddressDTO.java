@@ -1,9 +1,11 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO;
 
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.Address;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.District;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.Person;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
 
 @Data
 @NoArgsConstructor
@@ -32,11 +34,10 @@ public class AddressDTO {
     private String cep;
 
     @JsonProperty("bairro")
-    private DistrictDTO districtDTO;
+    private DistrictOnAddressDTO districtOnAddressDTO;
 
-    @JsonProperty("municipio")
-    private CityDTO cityDTO;
-
-    @JsonProperty("uf")
-    private UfDTO ufDTO;
+    public static AddressDTO toDTO(Address address) {
+        return AddressDTO.builder()
+                .build();
+    }
 }
