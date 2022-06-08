@@ -47,7 +47,7 @@ public class UfController {
 
     @GetMapping (params = "codigoUF")
     @ResponseStatus(HttpStatus.OK)
-    public UfDTO getById(@RequestParam("codigoUF") Integer id){
+    public UfDTO getById(@RequestParam(value = "codigoUF") Integer id){
         return service.getById(id)
                 .map(uf -> modelMapper.map(uf, UfDTO.class))
                 .orElseThrow( () -> new BusinessException("Não existe registro com o código UF " + id,

@@ -1,6 +1,7 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service;
 
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.City;
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.Uf;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public interface CityService {
 
     Optional<City> getById(Integer id);
 
-    List<City> getByIdUf(Integer idUf);
+    List<City> getByUf(Uf uf);
 
-    Optional<City> getByName(String name);
+    List<City> getByName(String name);
 
     List<City> getByStatus(int status);
 

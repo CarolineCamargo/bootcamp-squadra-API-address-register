@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class UfDTO {
 
-    @JsonProperty("codigoUf")
+    @JsonProperty("codigoUF")
     private Integer id;
 
     @JsonProperty ("sigla")

@@ -2,7 +2,7 @@ package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterse
 
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.controller.exception.BusinessException;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.CityDTO;
-import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.CityOnDistrictDTO;
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.UfDTO;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.City;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.Uf;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service.CityService;
@@ -28,6 +28,7 @@ public class CityController {
     @ResponseStatus(HttpStatus.OK)
     public List<CityDTO> create(@RequestBody CityDTO cityDTO){
 
+        System.out.println(cityDTO.getIdUf());
         Uf ufEntity = ufService.getById(cityDTO.getIdUf())
                 .orElseThrow(() -> new BusinessException("Não existe registro com o código UF "
                         + cityDTO.getIdUf(), HttpStatus.NOT_FOUND));
@@ -65,18 +66,22 @@ public class CityController {
     @GetMapping(params = "codigoUF")
     @ResponseStatus(HttpStatus.OK)
     public List<CityDTO> getByIdUf(@RequestParam("codigoUF") Integer idUf){
-        return service.getByIdUf(idUf).stream()
+
+        Uf ufEntity = ufService.getById(idUf)
+                .orElseThrow( () -> new BusinessException("Não existe registro com o código Uf " + idUf,
+                        HttpStatus.NOT_FOUND));
+
+        return service.getByUf(ufEntity).stream()
                 .map(city -> modelMapper.map(city, CityDTO.class))
                 .collect(Collectors.toList());
     }
 
     @GetMapping(params = "nome")
     @ResponseStatus(HttpStatus.OK)
-    public CityDTO getByName(@RequestParam("nome") String name){
-        return service.getByName(name)
+    public List<CityDTO> getByName(@RequestParam("nome") String name){
+        return service.getByName(name).stream()
                 .map(city -> modelMapper.map(city, CityDTO.class))
-                .orElseThrow( () -> new BusinessException("Não existe registro com o nome " + name,
-                        HttpStatus.NOT_FOUND));
+                .collect(Collectors.toList());
     }
 
     @GetMapping(params = "status")
@@ -90,7 +95,7 @@ public class CityController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CityDTO> update(@RequestBody CityDTO cityDTO) {
-
+        
         City entity = service.getById(cityDTO.getId())
                 .orElseThrow( () -> new BusinessException("Não existe registro com o código Municipio "
                         + cityDTO.getId(), HttpStatus.NOT_FOUND));

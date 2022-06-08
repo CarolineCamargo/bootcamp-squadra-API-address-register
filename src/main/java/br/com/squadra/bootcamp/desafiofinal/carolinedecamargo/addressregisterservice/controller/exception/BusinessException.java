@@ -8,4 +8,8 @@ public class BusinessException extends ResponseStatusException {
     public BusinessException(String message, HttpStatus status) {
         super(status, message);
     }
+
+    public BusinessException(String message) {
+        super(HttpStatus.BAD_REQUEST, message);
+    }
 }

@@ -5,7 +5,6 @@ import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterser
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.repository.UfRepository;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service.UfService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -31,6 +30,11 @@ public class UfServiceImpl implements UfService {
 
     @Override
     public Optional<Uf> getById(Integer id) {
+
+        if(id == null){
+            throw new BusinessException("O codigo Uf não pode ser nulo");
+        }
+
         return repository.findById(id);
     }
 
@@ -46,6 +50,11 @@ public class UfServiceImpl implements UfService {
 
     @Override
     public List<Uf> getByStatus(int status) {
+
+        if (status != 1 && status != 2){
+            throw new BusinessException("O campo status deve ser apenas 1 para ATIVO ou 2 para DESATIVADO");
+        }
+
         return repository.findAllByStatus(status);
     }
 
@@ -59,11 +68,11 @@ public class UfServiceImpl implements UfService {
 
         if (repository.existsByInitialsIgnoreCase(uf.getInitials())){
             throw new BusinessException("Já existe um estado com a sigla " + uf.getInitials()
-                    + ", você não pode cadastrar dois estados com a mesma sigla", HttpStatus.BAD_REQUEST);
+                    + ", você não pode cadastrar dois estados com a mesma sigla");
         }
         if (repository.existsByNameIgnoreCase(uf.getName())){
             throw new BusinessException("Já existe um estado com o nome " + uf.getName()
-                    + ", você não pode cadastrar dois estados com o mesmo nome", HttpStatus.BAD_REQUEST);
+                    + ", você não pode cadastrar dois estados com o mesmo nome");
         }
 
         validateUf(uf);
@@ -73,36 +82,35 @@ public class UfServiceImpl implements UfService {
 
         if (repository.existsByInitialsIgnoreCaseAndIdNot(uf.getInitials(), uf.getId())){
             throw new BusinessException("Já existe um outro estado com a sigla " + uf.getInitials()
-                    + ", você não pode atualizar o registro com a mesma sigla", HttpStatus.BAD_REQUEST);
+                    + ", você não pode atualizar o registro com a mesma sigla");
         }
         if (repository.existsByNameIgnoreCaseAndIdNot(uf.getName(), uf.getId())){
             throw new BusinessException("Já existe um outro estado com o nome " + uf.getName()
-                    + ", você não pode atualizar o registro com o mesmo nome", HttpStatus.BAD_REQUEST);
+                    + ", você não pode atualizar o registro com o mesmo nome");
         }
 
         validateUf(uf);
     }
 
     private void validateUf(Uf uf) {
-        if (StringUtils.hasText(uf.getInitials())){
-            throw new BusinessException("O campo sigla é obrigatório.", HttpStatus.BAD_REQUEST);
+        if (!StringUtils.hasText(uf.getInitials())){
+            throw new BusinessException("O campo sigla é obrigatório.");
         }
 
-        if (StringUtils.hasText(uf.getName())){
-            throw new BusinessException("O campo nome é obrigatório.", HttpStatus.BAD_REQUEST);
+        if (!StringUtils.hasText(uf.getName())){
+            throw new BusinessException("O campo nome é obrigatório.");
         }
 
-        if(uf.getInitials().length() <= 3){
-            throw new BusinessException("O campo sigla deve ter até 3 caracteres.", HttpStatus.BAD_REQUEST);
+        if(uf.getInitials().length() > 3){
+            throw new BusinessException("O campo sigla deve ter até 3 caracteres.");
         }
 
-        if(uf.getName().length() <= 60){
-            throw new BusinessException("O campo nome deve ter até 60 caracteres.", HttpStatus.BAD_REQUEST);
+        if(uf.getName().length() > 60){
+            throw new BusinessException("O campo nome deve ter até 60 caracteres.");
         }
 
-        if (!(uf.getStatus() == 1 || uf.getStatus() == 2)){
-            throw new BusinessException("O campo status deve ser apenas 1 para ATIVO ou 2 para DESATIVADO",
-                    HttpStatus.BAD_REQUEST);
+        if (uf.getStatus() != 1 && uf.getStatus() != 2){
+            throw new BusinessException("O campo status deve ser apenas 1 para ATIVO ou 2 para DESATIVADO");
         }
     }
 }

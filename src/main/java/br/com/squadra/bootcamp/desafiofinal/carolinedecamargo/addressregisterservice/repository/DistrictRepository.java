@@ -11,9 +11,9 @@ import java.util.Optional;
 @Repository
 public interface DistrictRepository extends JpaRepository<District, Integer> {
 
-    List<District> findAllByIdCity(Integer idCity);
+    List<District> findAllByCity(City city);
 
-    Optional<District> findByName(String name);
+    List<District> findAllByName(String name);
 
     List<District> findAllByStatus(int status);
 

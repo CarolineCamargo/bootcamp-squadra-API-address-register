@@ -6,16 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CityRepository extends JpaRepository<City, Integer> {
 
-    boolean existsByNameAndUf(String name, Uf uf);
+    boolean existsByNameIgnoreCaseAndUf(String name, Uf uf);
 
-    List<City> findAllByIdUf(Integer idUf);
+    List<City> findAllByUf(Uf uf);
 
-    Optional<City> findByName(String name);
+    List<City> findAllByName(String name);
 
     List<City> findAllByStatus(int status);
 }

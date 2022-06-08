@@ -12,7 +12,7 @@ public class CityOnDistrictDTO {
     @JsonProperty("codigoMunicipio")
     private Integer id;
 
-    @JsonProperty("codigoUf")
+    @JsonProperty("codigoUF")
     private Integer idUf;
 
     @JsonProperty ("nome")

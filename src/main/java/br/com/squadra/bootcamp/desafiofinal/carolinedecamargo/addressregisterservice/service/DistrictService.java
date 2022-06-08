@@ -1,5 +1,7 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service;
 
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.DistrictDTO;
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.City;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.District;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +17,9 @@ public interface DistrictService {
 
     Optional<District> getById(Integer id);
 
-    List<District> getByIdCity(Integer idCity);
+    List<District> getByCity(City City);
 
-    Optional<District> getByName(String name);
+    List<District> getByName(String name);
 
     List<District> getByStatus(int status);
 

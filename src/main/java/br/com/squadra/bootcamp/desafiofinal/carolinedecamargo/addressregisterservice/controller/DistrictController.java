@@ -64,18 +64,22 @@ public class DistrictController {
     @GetMapping(params = "codigoMunicipio")
     @ResponseStatus(HttpStatus.OK)
     public List<DistrictDTO> getByIdCity(@RequestParam("codigoMunicipio") Integer idCity){
-        return service.getByIdCity(idCity).stream()
+
+        City cityEntity = cityService.getById(idCity)
+                .orElseThrow( () -> new BusinessException("Não existe registro com o código Municipio "
+                        + idCity, HttpStatus.NOT_FOUND));
+
+        return service.getByCity(cityEntity).stream()
                 .map(district -> modelMapper.map(district, DistrictDTO.class))
                 .collect(Collectors.toList());
     }
 
     @GetMapping(params = "nome")
     @ResponseStatus(HttpStatus.OK)
-    public DistrictDTO getByName(@RequestParam("nome") String name){
-        return service.getByName(name)
+    public List<DistrictDTO> getByName(@RequestParam("nome") String name){
+        return service.getByName(name).stream()
                 .map(district -> modelMapper.map(district, DistrictDTO.class))
-                .orElseThrow( () -> new BusinessException("Não existe registro com o nome " + name,
-                        HttpStatus.NOT_FOUND));
+                .collect(Collectors.toList());
     }
 
     @GetMapping(params = "status")

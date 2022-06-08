@@ -13,7 +13,7 @@ public class District {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "district_generator")
-    @SequenceGenerator(name = "district_generator", initialValue = 1, allocationSize = 1, sequenceName = "SEQUENCE_BAIRRO")
+    @SequenceGenerator(name = "district_generator", initialValue = 0, allocationSize = 1, sequenceName = "SEQUENCE_BAIRRO")
     @Column(name = "CODIGO_BAIRRO")
     private Integer id;
 
