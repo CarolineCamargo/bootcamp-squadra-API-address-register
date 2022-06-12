@@ -1,13 +1,13 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service.impl;
 
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.controller.Validate;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.controller.exception.BusinessException;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.City;
-import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.Uf;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.repository.CityRepository;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service.CityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,32 +31,12 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public Optional<City> getById(Integer id) {
-
-        if(id == null){
-            throw new BusinessException("O codigo Municipio não pode ser nulo");
-        }
-
         return repository.findById(id);
     }
 
     @Override
-    public List<City> getByUf(Uf uf) {
-        return repository.findAllByUf(uf);
-    }
-
-    @Override
-    public List<City> getByName(String name) {
-        return repository.findAllByName(name);
-    }
-
-    @Override
-    public List<City> getByStatus(int status) {
-
-        if (status != 1 && status != 2){
-            throw new BusinessException("O campo status deve ser apenas 1 para ATIVO ou 2 para DESATIVADO");
-        }
-
-        return repository.findAllByStatus(status);
+    public List<City> getAll(City filter) {
+        return repository.findAll(Example.of(filter));
     }
 
     @Override
@@ -73,16 +53,10 @@ public class CityServiceImpl implements CityService {
                     + ", não é possível ter duas cidades com mesmo nome no mesmo estado.");
         }
 
-        if (!StringUtils.hasText(city.getName())){
-            throw new BusinessException("O campo nome é obrigatório.");
-        }
+        Validate.validateNameRequired(city.getName());
 
-        if(city.getName().length() > 256){
-            throw new BusinessException("O campo nome deve ter até 256 caracteres.");
-        }
+        Validate.validateNameSize(city.getName(), 256);
 
-        if (city.getStatus() != 1 && city.getStatus() != 2){
-            throw new BusinessException("O campo status deve ser apenas 1 para ATIVO ou 2 para DESATIVADO");
-        }
+        Validate.validateStatus(city.getStatus());
     }
 }

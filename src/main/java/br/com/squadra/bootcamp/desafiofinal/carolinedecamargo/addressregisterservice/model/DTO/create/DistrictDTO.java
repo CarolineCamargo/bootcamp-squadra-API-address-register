@@ -1,4 +1,4 @@
-package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO;
+package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.create;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -8,19 +8,16 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DistrictOnAddressDTO{
+public class DistrictDTO{
 
     @JsonProperty("codigoBairro")
     private Integer id;
 
     @JsonProperty("codigoMunicipio")
-    private Integer idCity;
+    private Integer cityId;
 
     @JsonProperty ("nome")
     private String name;
 
-    private int status;
-
-    @JsonProperty("municipio")
-    private CityOnDistrictDTO cityOnDistrictDTO;
+    private Integer status;
 }

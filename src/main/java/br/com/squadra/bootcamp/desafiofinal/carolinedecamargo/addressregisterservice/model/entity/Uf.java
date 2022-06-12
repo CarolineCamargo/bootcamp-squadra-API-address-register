@@ -1,5 +1,6 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity;
 
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.create.UfDTO;
 import lombok.*;
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ public class Uf {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "uf_generator")
-    @SequenceGenerator(name = "uf_generator", initialValue = 1, allocationSize = 1, sequenceName = "SEQUENCE_UF")
+    @SequenceGenerator(name = "uf_generator", allocationSize = 1, sequenceName = "SEQUENCE_UF")
     @Column(name = "CODIGO_UF")
     private Integer id;
 
@@ -24,5 +25,14 @@ public class Uf {
     private String name;
 
     @Column(name = "STATUS")
-    private int status;
+    private Integer status;
+
+    public static UfDTO toGetDTO(Uf uf) {
+        return UfDTO.builder()
+                .id(uf.getId())
+                .initials(uf.getInitials())
+                .name(uf.getName())
+                .status(uf.getStatus())
+                .build();
+    }
 }

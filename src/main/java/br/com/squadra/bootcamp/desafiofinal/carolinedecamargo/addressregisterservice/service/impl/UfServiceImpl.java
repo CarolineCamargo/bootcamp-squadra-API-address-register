@@ -1,12 +1,13 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service.impl;
 
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.controller.Validate;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.controller.exception.BusinessException;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.Uf;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.repository.UfRepository;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service.UfService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,38 +31,18 @@ public class UfServiceImpl implements UfService {
 
     @Override
     public Optional<Uf> getById(Integer id) {
-
-        if(id == null){
-            throw new BusinessException("O codigo Uf não pode ser nulo");
-        }
-
         return repository.findById(id);
-    }
-
-    @Override
-    public Optional<Uf> getByInitials(String initials) {
-        return repository.findByInitials(initials);
-    }
-
-    @Override
-    public Optional<Uf> getByName(String name) {
-        return repository.findByName(name);
-    }
-
-    @Override
-    public List<Uf> getByStatus(int status) {
-
-        if (status != 1 && status != 2){
-            throw new BusinessException("O campo status deve ser apenas 1 para ATIVO ou 2 para DESATIVADO");
-        }
-
-        return repository.findAllByStatus(status);
     }
 
     @Override
     public void update(Uf uf) {
         validateUpdateUf(uf);
         repository.save(uf);
+    }
+
+    @Override
+    public List<Uf> getAll(Uf filter) {
+        return repository.findAll(Example.of(filter));
     }
 
     private void validateCreateUf(Uf uf){
@@ -93,24 +74,15 @@ public class UfServiceImpl implements UfService {
     }
 
     private void validateUf(Uf uf) {
-        if (!StringUtils.hasText(uf.getInitials())){
-            throw new BusinessException("O campo sigla é obrigatório.");
-        }
 
-        if (!StringUtils.hasText(uf.getName())){
-            throw new BusinessException("O campo nome é obrigatório.");
-        }
+        Validate.validateInitialsRequired(uf.getInitials());
 
-        if(uf.getInitials().length() > 3){
-            throw new BusinessException("O campo sigla deve ter até 3 caracteres.");
-        }
+        Validate.validateNameRequired(uf.getName());
 
-        if(uf.getName().length() > 60){
-            throw new BusinessException("O campo nome deve ter até 60 caracteres.");
-        }
+        Validate.validateInitialsSize(uf.getInitials());
 
-        if (uf.getStatus() != 1 && uf.getStatus() != 2){
-            throw new BusinessException("O campo status deve ser apenas 1 para ATIVO ou 2 para DESATIVADO");
-        }
+        Validate.validateNameSize(uf.getName(), 60);
+
+        Validate.validateStatus(uf.getStatus());
     }
 }

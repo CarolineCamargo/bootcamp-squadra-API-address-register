@@ -14,11 +14,8 @@ public interface UfService {
 
     Optional<Uf> getById(Integer id);
 
-    Optional<Uf> getByInitials(String initials);
-
-    Optional<Uf> getByName(String name);
-
-    List<Uf> getByStatus(int status);
-
     void update(Uf uf);
+
+    List<Uf> getAll(Uf uf);
+
 }

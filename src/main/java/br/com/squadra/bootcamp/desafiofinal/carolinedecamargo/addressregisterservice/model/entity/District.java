@@ -1,5 +1,6 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity;
 
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.get.DistrictOnAddressDTO;
 import lombok.*;
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ public class District {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "district_generator")
-    @SequenceGenerator(name = "district_generator", initialValue = 0, allocationSize = 1, sequenceName = "SEQUENCE_BAIRRO")
+    @SequenceGenerator(name = "district_generator", allocationSize = 1, sequenceName = "SEQUENCE_BAIRRO")
     @Column(name = "CODIGO_BAIRRO")
     private Integer id;
 
@@ -25,5 +26,15 @@ public class District {
     private String name;
 
     @Column(name = "STATUS")
-    private int status;
+    private Integer status;
+
+    public static DistrictOnAddressDTO toGetDTO(District district) {
+        return DistrictOnAddressDTO.builder()
+                .id(district.getId())
+                .cityId(district.getCity().getId())
+                .name(district.getName())
+                .status(district.getStatus())
+                .cityOnDistrictDTO(City.toGetDTO(district.getCity()))
+                .build();
+    }
 }

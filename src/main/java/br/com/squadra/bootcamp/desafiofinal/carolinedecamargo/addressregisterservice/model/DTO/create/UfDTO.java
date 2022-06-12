@@ -1,4 +1,4 @@
-package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO;
+package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.create;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -19,5 +19,5 @@ public class UfDTO {
     @JsonProperty ("nome")
     private String name;
 
-    private int status;
+    private Integer status;
 }

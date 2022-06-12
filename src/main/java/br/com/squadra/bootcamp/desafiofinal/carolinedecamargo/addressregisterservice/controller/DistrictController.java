@@ -1,7 +1,7 @@
 package br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.controller;
 
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.controller.exception.BusinessException;
-import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.DistrictDTO;
+import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.DTO.create.DistrictDTO;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.City;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.model.entity.District;
 import br.com.squadra.bootcamp.desafiofinal.carolinedecamargo.addressregisterservice.service.CityService;
@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,9 +28,9 @@ public class DistrictController {
     @ResponseStatus(HttpStatus.OK)
     public List<DistrictDTO> create(@RequestBody DistrictDTO districtDTO){
 
-        City cityEntity = cityService.getById(districtDTO.getIdCity())
+        City cityEntity = cityService.getById(districtDTO.getCityId())
                 .orElseThrow(() -> new BusinessException("Não existe registro com o código Município "
-                        + districtDTO.getIdCity(), HttpStatus.NOT_FOUND));
+                        + districtDTO.getCityId(), HttpStatus.NOT_FOUND));
 
         District entity = District.builder()
                 .name(districtDTO.getName().trim())
@@ -46,48 +47,38 @@ public class DistrictController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<DistrictDTO> get(){
-        return service.getDistricts().stream()
+    public Object getAll(@RequestParam(value = "nome", required = false) String name,
+                         @RequestParam(value ="status", required = false) Integer status,
+                         @RequestParam(value ="codigoMunicipio", required = false) Integer cityId,
+                         @RequestParam(value = "codigoBairro", required = false) Integer id) {
+
+        City cityEntity = null;
+
+        if(cityId != null) {
+            cityEntity = cityService.getById(cityId).orElse(City.builder().id(cityId).build());
+        }
+
+        District filter = District.builder()
+                .name(name)
+                .status(status)
+                .city(cityEntity)
+                .id(id)
+                .build();
+
+        List<District> filteredDistrict = service.getAll(filter);
+
+        if (!filteredDistrict.isEmpty() && isFilterByNameOrStatusAndCity(filter)) {
+            return filteredDistrict.stream().findFirst().map(district -> modelMapper.map(district, DistrictDTO.class));
+        }
+
+        return filteredDistrict.stream()
                 .map(district -> modelMapper.map(district, DistrictDTO.class))
                 .collect(Collectors.toList());
     }
 
-    @GetMapping (params = "codigoBairro")
-    @ResponseStatus(HttpStatus.OK)
-    public DistrictDTO getById(@RequestParam("codigoBairro") Integer id){
-        return service.getById(id)
-                .map(district -> modelMapper.map(district, DistrictDTO.class))
-                .orElseThrow( () -> new BusinessException("Não existe registro com o código Bairro " + id,
-                        HttpStatus.NOT_FOUND));
-    }
-
-    @GetMapping(params = "codigoMunicipio")
-    @ResponseStatus(HttpStatus.OK)
-    public List<DistrictDTO> getByIdCity(@RequestParam("codigoMunicipio") Integer idCity){
-
-        City cityEntity = cityService.getById(idCity)
-                .orElseThrow( () -> new BusinessException("Não existe registro com o código Municipio "
-                        + idCity, HttpStatus.NOT_FOUND));
-
-        return service.getByCity(cityEntity).stream()
-                .map(district -> modelMapper.map(district, DistrictDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping(params = "nome")
-    @ResponseStatus(HttpStatus.OK)
-    public List<DistrictDTO> getByName(@RequestParam("nome") String name){
-        return service.getByName(name).stream()
-                .map(district -> modelMapper.map(district, DistrictDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping(params = "status")
-    @ResponseStatus(HttpStatus.OK)
-    public List<DistrictDTO> getByStatus(@RequestParam int status){
-        return service.getByStatus(status).stream()
-                .map(s -> modelMapper.map(s, DistrictDTO.class))
-                .collect(Collectors.toList());
+    private boolean isFilterByNameOrStatusAndCity(District filter) {
+        return Objects.nonNull(filter.getId()) || Objects.nonNull(filter.getName()) ||
+                (Objects.nonNull(filter.getCity()) && Objects.nonNull(filter.getStatus()));
     }
 
     @PutMapping
@@ -98,9 +89,9 @@ public class DistrictController {
                 .orElseThrow( () -> new BusinessException("Não existe registro com o código Bairro "
                         + districtDTO.getId(), HttpStatus.NOT_FOUND));
 
-        City cityEntity = cityService.getById(districtDTO.getIdCity())
+        City cityEntity = cityService.getById(districtDTO.getCityId())
                 .orElseThrow( () -> new BusinessException("Não existe registro com o código Municipio "
-                        + districtDTO.getIdCity(), HttpStatus.NOT_FOUND));
+                        + districtDTO.getCityId(), HttpStatus.NOT_FOUND));
 
 
         entity.setId(districtDTO.getId());

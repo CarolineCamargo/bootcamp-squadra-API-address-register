@@ -17,10 +17,4 @@ public interface UfRepository extends JpaRepository<Uf, Integer> {
     boolean existsByInitialsIgnoreCaseAndIdNot(String initials, Integer id);
 
     boolean existsByNameIgnoreCaseAndIdNot(String name, Integer id);
-
-    Optional<Uf> findByInitials(String initials);
-
-    Optional<Uf> findByName(String name);
-
-    List<Uf> findAllByStatus(int status);
 }
